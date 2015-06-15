@@ -1,18 +1,14 @@
 package drose379.kairos;
 
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import drose379.kairos.homeTabs.SlidingTabLayout;
+import drose379.kairos.homeTabs.ViewPagerAdapter;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -21,26 +17,28 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView title = (TextView) findViewById(R.id.titleText);
-        TextView title2 = (TextView) findViewById(R.id.titleText2);
-        TextView desc = (TextView) findViewById(R.id.desc);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        Typeface ss = TypeHelper.getTypeface(this);
-        title.setTypeface(ss);
-        title2.setTypeface(ss);
-        desc.setTypeface(ss);
+        ViewPagerAdapter adapter =  new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
+        pager.setAdapter(adapter);
 
-        ListView listView = (ListView) findViewById(R.id.list);
-        ListView listView2 = (ListView) findViewById(R.id.list2);
+        SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabScrollColor);
+            }
 
-        List<String> testItems = new ArrayList<String>(){{add("Objective-C");add("PHP");add("SQL");add("Java");add("Kotlin");}};
-        List<String> testItems2 = new ArrayList<String>(){{add("PhotoShop");add("Illustrator");add("Gimp");add("Web Design");add("Word Art");}};
+            @Override
+            public int getDividerColor(int position) {
+                return 0;
+            }
+        });
 
-        SubjectAdapter adapter = new SubjectAdapter(this,testItems);
-        SubjectAdapter adapter2 = new SubjectAdapter(this,testItems2);
+        tabs.setViewPager(pager);
 
-        listView.setAdapter(adapter);
-        listView2.setAdapter(adapter2);
     }
 
     @Override

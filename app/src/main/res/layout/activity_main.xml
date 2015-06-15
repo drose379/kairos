@@ -1,136 +1,43 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:isScrollContainer="true"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="@color/ColorPrimaryDark"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-    <android.support.v7.widget.CardView
-        android:layout_width="fill_parent"
-        android:layout_height="400dp"
-        card_view:cardCornerRadius="1dp"
-        android:id="@+id/cardView">
-
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/titleLayout"
-            android:background="@drawable/rounded_corner_1"
-            android:padding="20dp">
-
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:padding="2.5dp"
-                android:id="@+id/titleText"
-                android:textColor="#FFFFFF"
-                android:text="Programming"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#CFD8DC"
-                android:layout_below="@+id/titleText"
-                android:padding="2.5dp"
-                android:id="@+id/desc"
-                android:text="From advanced to beginner, learn something new here"
-                />
-
-        </RelativeLayout>
-
-
-            <com.melnykov.fab.FloatingActionButton
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/titleLayout"
-                android:layout_alignRight="@+id/titleLayout"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="-20dp"
-                fab:fab_colorNormal="#03A9F4"
-                fab:fab_type="mini"
-                android:src="@drawable/ic_add_white_24dp"
-                />
-
-
-
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/titleLayout"
-            android:padding="20dp"
-            android:id="@+id/list"
+            android:layout_width="match_parent"
             />
 
-        </RelativeLayout>
+        <drose379.kairos.homeTabs.SlidingTabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:background="@color/ColorPrimary"
+            />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        >
 
-    </android.support.v7.widget.CardView>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"/>
 
-    <android.support.v7.widget.CardView
-        android:layout_width="fill_parent"
-        android:layout_height="400dp"
-        card_view:cardCornerRadius="1dp"
-        android:id="@+id/cardView2">
-
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-
-
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:textSize="25sp"
-                android:background="@drawable/rounded_corner_1"
-                android:id="@+id/titleText2"
-                android:textColor="#FFFFFF"
-                android:text="Graphic Design"/>
-
-
-
-            <ListView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/titleText2"
-                android:padding="20dp"
-                android:id="@+id/list2"
-                />
-
-        </RelativeLayout>
-
-
-    </android.support.v7.widget.CardView>
 
     </LinearLayout>
 
+    </LinearLayout>
 
-</ScrollView>

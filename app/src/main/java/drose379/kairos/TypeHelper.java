@@ -11,5 +11,8 @@ public class TypeHelper {
     public static Typeface getTypeface(Context context) {
         return Typeface.createFromAsset(context.getAssets(),"sourceSans_reg.ttf");
     }
+    public static Typeface getTypefaceBold(Context context) {
+        return Typeface.createFromAsset(context.getAssets(),"ssp_semiBold.ttf");
+    }
 
 }

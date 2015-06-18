@@ -54,24 +54,19 @@ public class LocalSubjectHelper {
             @Override
             public void onResponse(Response response) throws IOException {
                 try {
-
                     JSONObject servResponse = new JSONObject(response.body().string());
 
-                    //Need to remove duplicates from allCategories
-                    JSONArray allCategories = servResponse.getJSONArray("categories");
-                    JSONArray subjectInfo = servResponse.getJSONArray("fullSubInfo");
+                    ArrayList<Category> allCategories = stripDuplicates(servResponse.getJSONArray("categories"));
+                    ArrayList<Subject> subjects = sortSubjects(servResponse.getJSONArray("fullSubInfo"));
 
-                    localData = createCategories(allCategories,subjectInfo);
-                    for (Category cat : localData) {
-                        Log.i("cat",cat.getName() + " " + cat.getSubjects().toString());
-                    }
+                    //localdata references an arraylist of cateogries with all of their children subjects included in the cateogry object
+                    localData = createCategories(allCategories,subjects);
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
 
             }
-
             @Override
             public void onFailure(Request request,IOException e) {
 
@@ -79,10 +74,45 @@ public class LocalSubjectHelper {
         });
     }
 
-    public List<Category> createCategories(JSONArray allCategories,JSONArray localSubjects) throws JSONException {
+    public ArrayList<Category> stripDuplicates(JSONArray categories) throws JSONException {
+        ArrayList<Category> stripped = new ArrayList<Category>();
+        ArrayList<String> categoryaddedNames = new ArrayList<String>();
+
+        for(int i=0;i<categories.length();i++) {
+            String categoryName = categories.getJSONObject(i).getString("category");
+            String categoryDescription = categories.getJSONObject(i).getString("description");
+            if (!categoryaddedNames.contains(categoryName)) {
+                categoryaddedNames.add(categoryName);
+                stripped.add(new Category(categoryName,categoryDescription));
+            }
+        }
+       return stripped;
+    }
+
+    public ArrayList<Subject> sortSubjects(JSONArray rawSubjects) throws JSONException {
+        ArrayList<Subject> subjects = new ArrayList<Subject>();
+        for(int i=0;i<rawSubjects.length();i++) {
+            String subjectName = rawSubjects.getJSONObject(i).getString("name");
+            String subjectCategory  = rawSubjects.getJSONObject(i).getString("category");
+            subjects.add(new Subject(subjectName,subjectCategory));
+        }
+        return subjects;
+    }
+
+    /**
+     * Creates category objects that contain their child subjects
+     * @param allCategories
+     * @param localSubjects
+     * @return
+     * @throws JSONException
+     */
+    public List<Category> createCategories(ArrayList<Category> allCategories,ArrayList<Subject> localSubjects) throws JSONException {
         List<Category> categories = new ArrayList<Category>();
 
-        //Need to remove duplicates from allCategories JSONArray
+        /*
+        Need to remove duplicates from allCategories JSONArray
+
+        Log.i("allCats",allCategories.toString());
 
         for(int i=0;i<allCategories.length();i++) {
             JSONObject currentCategory = allCategories.getJSONObject(i);
@@ -106,7 +136,7 @@ public class LocalSubjectHelper {
                 }
             }
         }
-
+        */
         return categories;
     }
 

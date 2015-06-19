@@ -3,78 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="fill_parent"
-        android:layout_height="400dp"
-        card_view:cardCornerRadius="1dp"
-        android:id="@+id/cardView">
-
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/titleLayout"
-                android:background="@drawable/rounded_corner_1"
-                android:padding="20dp">
-
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="25sp"
-                    android:padding="2.5dp"
-                    android:id="@+id/titleText"
-                    android:textColor="#FFFFFF"
-                    android:text="Programming"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#CFD8DC"
-                    android:layout_below="@+id/titleText"
-                    android:padding="2.5dp"
-                    android:id="@+id/desc"
-                    android:text="From advanced to beginner, learn something new here"
-                    />
-
-            </RelativeLayout>
-
-
-            <com.melnykov.fab.FloatingActionButton
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/titleLayout"
-                android:layout_alignRight="@+id/titleLayout"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="-20dp"
-                fab:fab_colorNormal="#03A9F4"
-                fab:fab_type="mini"
-                android:src="@drawable/ic_add_white_24dp"
-                />
-
-
-
-            <ListView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/titleLayout"
-                android:padding="20dp"
-                android:id="@+id/list"
-                />
-
-        </RelativeLayout>
-
-
-    </android.support.v7.widget.CardView>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/categoryHolder"/>
 
 </LinearLayout>

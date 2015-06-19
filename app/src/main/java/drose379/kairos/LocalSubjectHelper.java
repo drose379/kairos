@@ -1,5 +1,8 @@
 package drose379.kairos;
 
+import android.content.Context;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.squareup.okhttp.Call;
@@ -18,20 +21,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import drose379.kairos.homeTabs.TabLocal;
+
 @SuppressWarnings("NewApi")
 public class LocalSubjectHelper {
 
     private OkHttpClient httpClient = new OkHttpClient();
 
-    public interface FragCallback {
-        public void localData(List<Category> categories);
-    }
-
     private int ownerID;
-    private List<Category> localData;
+    private TabLocal parentFrag;
+    private Handler handler = new Handler();
 
-    public LocalSubjectHelper(int ownerID) {
+    public LocalSubjectHelper(Fragment frag,int ownerID) {
         this.ownerID = ownerID;
+        parentFrag = (TabLocal) frag;
     }
 
     public void initGrab() {
@@ -58,9 +61,14 @@ public class LocalSubjectHelper {
 
                     ArrayList<Category> allCategories = stripDuplicates(servResponse.getJSONArray("categories"));
                     ArrayList<Subject> subjects = sortSubjects(servResponse.getJSONArray("fullSubInfo"));
+                    final ArrayList<Category> fullCategories = createFullCategories(allCategories,subjects);
 
-                    //localdata references an arraylist of cateogries with all of their children subjects included in the cateogry object
-                    localData = createCategories(allCategories,subjects);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            parentFrag.getLocalData(fullCategories);
+                        }
+                    });
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -106,37 +114,20 @@ public class LocalSubjectHelper {
      * @return
      * @throws JSONException
      */
-    public List<Category> createCategories(ArrayList<Category> allCategories,ArrayList<Subject> localSubjects) throws JSONException {
-        List<Category> categories = new ArrayList<Category>();
+    public ArrayList<Category> createFullCategories(ArrayList<Category> allCategories,ArrayList<Subject> localSubjects) throws JSONException {
+        ArrayList<Category> categories = new ArrayList<Category>();
 
-        /*
-        Need to remove duplicates from allCategories JSONArray
-
-        Log.i("allCats",allCategories.toString());
-
-        for(int i=0;i<allCategories.length();i++) {
-            JSONObject currentCategory = allCategories.getJSONObject(i);
-            String category = currentCategory.getString("category");
-            String description = currentCategory.getString("description");
-            categories.add(new Category(category,description));
-        }
-
-        //loop over each subject
-        //get category, loop over the list of Categories inside that loop, foreach category,
-        // if the current subject cateogory is equal, grab the sub name and run addSubject()
-
-        for (int i=0;i<localSubjects.length();i++) {
-            JSONObject currentSubject = localSubjects.getJSONObject(i);
-            String subject = currentSubject.getString("name");
-            String category = currentSubject.getString("category");
-
-            for (Category currentCategory : categories) {
-                if (category.equals(currentCategory.getName())) {
-                    currentCategory.addSubject(subject);
+        for(Category currentCategory : allCategories) {
+            String name = currentCategory.getName();
+            for(Subject currentSubject : localSubjects) {
+                String subCategory = currentSubject.getCategory();
+                String subName = currentSubject.getName();
+                if (name.equals(subCategory)) {
+                    currentCategory.addSubject(subName);
                 }
             }
+            categories.add(currentCategory);
         }
-        */
         return categories;
     }
 

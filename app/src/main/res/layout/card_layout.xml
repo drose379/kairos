@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#CFD8DC"
+                    android:textColor="#ECEFF1"
                     android:layout_below="@+id/titleText"
                     android:padding="2.5dp"
                     android:id="@+id/desc"
@@ -51,29 +51,12 @@
 
             </RelativeLayout>
 
-
-            <com.melnykov.fab.FloatingActionButton
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/titleLayout"
-                android:layout_alignRight="@+id/titleLayout"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="-20dp"
-                fab:fab_colorNormal="#03A9F4"
-                fab:fab_type="mini"
-                android:src="@drawable/ic_add_white_24dp"
-                />
-
-
-
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="#ECEFF1"
                 android:layout_below="@+id/titleLayout"
-                android:padding="10dp"
                 android:id="@+id/subjectList"
                 />
 
@@ -83,4 +66,4 @@
     </android.support.v7.widget.CardView>
 
 
-</LinearLayout>
+</RelativeLayout>

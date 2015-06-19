@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 
 import drose379.kairos.Category;
@@ -50,7 +53,37 @@ public class TabLocal extends Fragment {
             * Then, work with the ListView inside each card to display the cards subjects
         */
         ListView categoryContainer = (ListView) getView().findViewById(R.id.categoryHolder);
-        categoryContainer.setAdapter(new CategoryCardAdapter(getActivity(),categories));
+        categoryContainer.setAdapter(new CategoryCardAdapter(getActivity(), categories));
+
+        //also need to initialize the FAB with the categories items
+        FloatingActionButton subjectCreateButton = (FloatingActionButton) getView().findViewById(R.id.fab);
+        initSubMenu(subjectCreateButton,categories);
+    }
+
+    public void initSubMenu(FloatingActionButton button,ArrayList<Category> categories) {
+        final String[] menuItems = new String[categories.size()];
+
+        for(int i=0;i<categories.size();i++) {
+            Category current = categories.get(i);
+            menuItems[i] = current.getName();
+        }
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
+                        .items(menuItems)
+                        .title("Choose a Category")
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog,View view,int which,CharSequence text) {
+                                //dismiss this, open dialog to add subject to selected category
+                            }
+                        });
+                MaterialDialog categoryChooser = builder.build();
+                categoryChooser.show();
+            }
+        });
     }
 
 

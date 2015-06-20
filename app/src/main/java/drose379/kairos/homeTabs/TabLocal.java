@@ -1,5 +1,6 @@
 package drose379.kairos.homeTabs;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
@@ -57,7 +61,7 @@ public class TabLocal extends Fragment {
 
         //also need to initialize the FAB with the categories items
         FloatingActionButton subjectCreateButton = (FloatingActionButton) getView().findViewById(R.id.fab);
-        initSubMenu(subjectCreateButton,categories);
+        initSubMenu(subjectCreateButton, categories);
     }
 
     public void initSubMenu(FloatingActionButton button,ArrayList<Category> categories) {
@@ -76,14 +80,63 @@ public class TabLocal extends Fragment {
                         .title("Choose a Category")
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
-                            public void onSelection(MaterialDialog dialog,View view,int which,CharSequence text) {
-                                //dismiss this, open dialog to add subject to selected category
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence selectedCategory) {
+                                dialog.dismiss();
+                                initSubBuilderDialog((String) selectedCategory);
                             }
                         });
                 MaterialDialog categoryChooser = builder.build();
                 categoryChooser.show();
             }
         });
+    }
+
+    public void initSubBuilderDialog(String selectedCategory) {
+        MaterialDialog subBuilder = new MaterialDialog.Builder(getActivity())
+                .customView(R.layout.new_subject_layout,true)
+                .title(selectedCategory + " - " + "New Subject")
+                .positiveColorRes(R.color.ColorPrimary)
+                .negativeColorRes(R.color.cancel)
+                .positiveText("Done")
+                .negativeText("Cancel")
+                .autoDismiss(false)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        if (newSubIsValid(dialog.getCustomView())) {
+                            dialog.dismiss();
+                            EditText newSubject = (EditText) dialog.getCustomView().findViewById(R.id.subName);
+                            RadioGroup privacyGroup = (RadioGroup) dialog.getCustomView().findViewById(R.id.privacyToggle);
+
+                            String subject = newSubject.getText().toString();
+                            int radioID = privacyGroup.getCheckedRadioButtonId();
+                            RadioButton checkedButton = (RadioButton) privacyGroup.findViewById(radioID);
+
+                            subHelper.newLocalSubject(subject,checkedButton.getText().toString());
+
+                        }
+                    }
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+        subBuilder.show();
+    }
+
+    public boolean newSubIsValid(View dialogView) {
+        boolean isValid = false;
+        EditText subArea = (EditText) dialogView.findViewById(R.id.subName);
+        RadioGroup privacyGroup = (RadioGroup) dialogView.findViewById(R.id.privacyToggle);
+
+        String subject = subArea.getText().toString().isEmpty() ? null : subArea.getText().toString();
+        int checkedID = privacyGroup.getCheckedRadioButtonId();
+
+        if (subject != null && checkedID != -1) {
+            isValid = true;
+        }
+        return isValid;
     }
 
 

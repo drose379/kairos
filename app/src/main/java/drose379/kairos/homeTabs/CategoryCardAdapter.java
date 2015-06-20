@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import drose379.kairos.Category;
 import drose379.kairos.R;
+import drose379.kairos.TypeHelper;
 
 public class CategoryCardAdapter extends BaseAdapter {
     private Context context;
@@ -71,6 +72,7 @@ public class CategoryCardAdapter extends BaseAdapter {
                 //Need to compare subject number to the amount of subjects in the list, if it is last subject in list, do not show divider
 
                 subText.setText(subject);
+                subText.setTypeface(TypeHelper.getTypeface(context));
                 subjectContainer.addView(subText);
                 if(i+1<size) {subjectContainer.addView(divider);}
             }

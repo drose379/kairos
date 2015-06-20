@@ -30,7 +30,7 @@
                 android:padding="20dp">
 
 
-                <TextView
+                <drose379.kairos.CustomTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
@@ -39,7 +39,7 @@
                     android:textColor="#FFFFFF"
                     android:text="Programming"/>
 
-                <TextView
+                <drose379.kairos.CustomTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ECEFF1"

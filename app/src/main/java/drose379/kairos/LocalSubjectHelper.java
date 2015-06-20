@@ -131,4 +131,9 @@ public class LocalSubjectHelper {
         return categories;
     }
 
+    public void newLocalSubject(String name,String privacy) {
+        //create the new subject
+        //on response use parentFrag instance and create a method to tell the fragment that the subject was created successfully (snackbar)
+    }
+
 }

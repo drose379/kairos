@@ -11,10 +11,11 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_margin="13dp"
+        android:paddingRight="13dp"
         card_view:cardCornerRadius="1dp"
         android:id="@+id/cardView">
-
-
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -59,6 +60,22 @@
                 android:layout_below="@+id/titleLayout"
                 android:id="@+id/subjectList"
                 />
+
+            <drose379.kairos.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardFooter"
+                android:layout_below="@+id/subjectList"
+                android:layout_alignParentRight="true"
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                custom:bold="true"
+                android:background="#CFD8DC"
+                android:gravity="right"
+                android:textColor="#607D8B"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:text="ADD"/>
 
         </RelativeLayout>
 

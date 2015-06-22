@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import drose379.kairos.Category;
+import drose379.kairos.CustomTextView;
 import drose379.kairos.R;
 import drose379.kairos.TypeHelper;
 
@@ -43,8 +44,8 @@ public class CategoryCardAdapter extends BaseAdapter {
     @Override
     public View getView(int position,View recycledView,ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = recycledView;
-        if (v == null) {
+        View v = null;
+
             v = inflater.inflate(R.layout.card_layout, parent, false);
 
             TextView cardTitle = (TextView) v.findViewById(R.id.titleText);
@@ -53,31 +54,42 @@ public class CategoryCardAdapter extends BaseAdapter {
 
             Category currentCategory = categories.get(position);
 
+            Log.i("current",currentCategory.getName());
+
             cardTitle.setText(currentCategory.getName());
             cardDescription.setText(currentCategory.getDescription());
 
             for (int i=0;i<currentCategory.getSubjects().size();i++) {
                 int size = currentCategory.getSubjects().size();
+                if (i < 2) {
+                    String subject = currentCategory.getSubjects().get(i);
 
-                String subject = currentCategory.getSubjects().get(i);
+                    TextView subText = (TextView) inflater.inflate(R.layout.simple_list_child_1, null);
 
-                TextView subText = (TextView) inflater.inflate(R.layout.simple_list_child_1,null);
+                    View divider = new View(context);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+                    params.setMargins(0, 0, 0, 0);
+                    divider.setLayoutParams(params);
+                    divider.setBackgroundColor(Color.parseColor("#B3B6B6B6"));
 
-                View divider = new View(context);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,1);
-                params.setMargins(0, 0, 0, 0);
-                divider.setLayoutParams(params);
-                divider.setBackgroundColor(Color.parseColor("#B3B6B6B6"));
+                    //Need to compare subject number to the amount of subjects in the list, if it is last subject in list, do not show divider
 
-                //Need to compare subject number to the amount of subjects in the list, if it is last subject in list, do not show divider
-
-                subText.setText(subject);
-                subText.setTypeface(TypeHelper.getTypeface(context));
-                subjectContainer.addView(subText);
-                if(i+1<size) {subjectContainer.addView(divider);}
+                    subText.setText(subject);
+                    subText.setTypeface(TypeHelper.getTypeface(context));
+                    subjectContainer.addView(subText);
+                    if (size != 1 && i != 1){subjectContainer.addView(divider);}
+                }
+                if (size>2) {
+                    int remaining = size-2;
+                    CustomTextView footer = (CustomTextView) v.findViewById(R.id.cardFooter);
+                    footer.setVisibility(View.VISIBLE);
+                    if (remaining == 1) {
+                        footer.setText("+ " + remaining + " More Subject");
+                    } else {
+                        footer.setText("+ " + remaining + " More Subjects");
+                    }
+                }
             }
-
-        }
         return v;
     }
 }
